@@ -1,30 +1,53 @@
-import {
-    createBrowserRouter,
-   
-  } from "react-router";
-import Root from "../Components/Root/Root";
+import { createBrowserRouter } from "react-router"; 
+import HomeLayout from "../Layout/HomeLayout/HomeLayout";
 import Home from "../Pages/Home/Home";
-import Login from "../Pages/Login/Login";
-import Register from "../Pages/Register/Register";
+import CategoryNews from "../Pages/CategoryNews/CategoryNews";
+import AuthLayout from "../Layout/AuthLayout/AuthLayout";
+import Login from "../Layout/AuthLayout/Login";
+import Register from "../Layout/AuthLayout/Register";
+import NewsDetails from "../Layout/News/NewsDetails";
+import PrivateRoute from "./PrivateRoute";
+import Loading from "../Pages/Loading";
 
- export const router = createBrowserRouter([
-    {
-      path: "/",
-      Component: Root,
-      children:[
-        {
-            index:true,
-            Component: Home,
-        },
-        {
-            path: 'login',
-            Component: Login,
-
-        },
-        {
-            path:'register',
-            Component: Register,
-        },
-      ]
-    },
-  ]);
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomeLayout />,
+    children: [
+      {
+        index: true, 
+        element: <Home />
+      },
+      {
+        path: "categoryNews/:id",
+        loader: () => fetch('/news.json'),
+        hydrateFallbackElement: <Loading />,
+        element: <CategoryNews />
+      }
+    ]
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/auth/login",
+        element: <Login />
+      },
+      {
+        path: "/auth/register",
+        element: <Register />
+      }
+    ]
+  },
+  {
+    path: "/news/:id",
+    loader: () => fetch('/news.json'),
+    hydrateFallbackElement: <Loading />,
+    element: (
+      <PrivateRoute>
+        <NewsDetails />
+      </PrivateRoute>
+    )
+  }
+]);

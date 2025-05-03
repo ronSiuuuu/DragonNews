@@ -1,15 +1,17 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-import Navbar from '../Navbar/Navbar';
+import Navbar from '../HomeLayout/Navbar';
 
-const Root = () => {
+const AuthLayout = () => {
     return (
         <div>
-            <Navbar></Navbar>
+            <Navbar>
+
+            </Navbar>
             <Outlet></Outlet>
             
         </div>
     );
 };
 
-export default Root;
+export default AuthLayout;

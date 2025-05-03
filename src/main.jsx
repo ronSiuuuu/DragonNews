@@ -7,10 +7,14 @@ import {
 
   RouterProvider,
 } from "react-router";
+import ContextProvider from './Utility/AuthContext/ContextProvider.jsx'
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <ContextProvider>
     <RouterProvider router={router} />
+    </ContextProvider>
+   
   </StrictMode>,
 )
